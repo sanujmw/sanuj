@@ -1,23 +1,296 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavender POS System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-lavender: #9b87bd;
+            --dark-lavender: #6d5b8e;
+            --light-lavender: #f3f0f7;
+            --accent-purple: #7c3aed;
+            --text-main: #2d2a32;
+            --bg-white: #ffffff;
+            --border-color: #e2daeb;
+            --success-green: #4ade80;
+            --danger-red: #fb7185;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-lavender);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            color: var(--text-main);
+        }
+
+        /* --- LEFT BILLING PANEL --- */
+        .billing-panel {
+            width: 400px;
+            background: var(--bg-white);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .header-meta {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .pill-input {
+            background: var(--light-lavender);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            flex: 1;
+        }
+
+        .customer-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .btn-purple {
+            background: var(--primary-lavender);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .cart-items {
+            flex-grow: 1;
+            border: 1px dashed var(--primary-lavender);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-lavender);
+            text-align: center;
+            background: #faf9ff;
+        }
+
+        .totals-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--light-lavender);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        /* --- RIGHT PRODUCT PANEL --- */
+        .product-panel {
+            flex-grow: 1;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+        .category-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            padding: 10px 25px;
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            background: var(--primary-lavender);
+            color: white;
+            border-color: var(--primary-lavender);
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            border: 1px solid transparent;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            border-color: var(--primary-lavender);
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            object-fit: cover;
+        }
+
+        .price-tag {
+            color: var(--dark-lavender);
+            font-weight: 600;
+            display: block;
+            margin-top: 5px;
+        }
+
+        /* --- BOTTOM ACTIONS --- */
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid var(--border-color);
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.05);
+        }
+
+        .pay-btn {
+            background: var(--success-green);
+            color: #064e3b;
+            font-weight: 600;
+            padding: 12px 40px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cancel-btn {
+            background: var(--danger-red);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello, I'm [Your Name]</h1>
-    <p>Welcome to my portfolio website.</p>
 
-    <h2>About Me</h2>
-    <p>I am a student interested in IT, business, and entrepreneurship.</p>
+    <div class="billing-panel">
+        <div class="header-meta">
+            <input type="text" class="pill-input" value="2026/04/06 10:43" readonly>
+            <input type="text" class="pill-input" placeholder="Reference">
+        </div>
+        
+        <div class="customer-bar">
+            <select class="pill-input" style="flex:2">
+                <option>Walk-in Customer</option>
+            </select>
+            <button class="btn-purple">Cus Info</button>
+        </div>
 
-    <h2>Skills</h2>
-    <ul>
-        <li>Basic Web Development</li>
-        <li>ICT Knowledge</li>
-        <li>Problem Solving</li>
-    </ul>
+        <input type="text" class="search-box" placeholder="Scan or search product...">
 
-    <h2>Contact</h2>
-    <p>Email: yourname@gmail.com</p>
+        <div class="cart-items">
+            <p>Your tray is empty</p>
+            <small>Select items from the right to start</small>
+        </div>
+
+        <div class="totals-section">
+            <div class="total-row"><span>Items</span> <span>0</span></div>
+            <div class="total-row"><span>Subtotal</span> <span>$0.00</span></div>
+            <div class="total-row" style="font-weight:bold; font-size: 20px; margin-top:10px; color: var(--accent-purple)">
+                <span>Total</span> <span>$0.00</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="product-panel">
+        <div class="category-tabs">
+            <div class="tab active" onclick="filterCategory('all', this)">All</div>
+            <div class="tab" onclick="filterCategory('lunch', this)">Lunch</div>
+            <div class="tab" onclick="filterCategory('beverages', this)">Beverages</div>
+            <div class="tab" onclick="filterCategory('desserts', this)">Desserts</div>
+        </div>
+
+        <div class="product-grid" id="productGrid">
+            </div>
+    </div>
+
+    <div class="action-bar">
+        <div>
+            <button class="btn-purple" style="background:#e2daeb; color: var(--dark-lavender); margin-right: 10px;">Hold Draft</button>
+            <button class="btn-purple" style="background:#e2daeb; color: var(--dark-lavender);">Recent Trans.</button>
+        </div>
+        <div>
+            <button class="pay-btn">PROCEED TO PAYMENT</button>
+            <button class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { name: "Rice and Curry", cat: "lunch", price: "$7.50", img: "🍛" },
+            { name: "Fried Rice", cat: "lunch", price: "$6.50", img: "🍱" },
+            { name: "Yellow Rice", cat: "lunch", price: "$7.00", img: "🍚" },
+            { name: "Mineral Water", cat: "beverages", price: "$1.50", img: "💧" },
+            { name: "Chocolate Cake", cat: "desserts", price: "$4.00", img: "🍰" }
+        ];
+
+        function filterCategory(category, element) {
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            element.classList.add('active');
+
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            const filtered = category === 'all' 
+                ? products 
+                : products.filter(p => p.cat === category);
+
+            filtered.forEach(p => {
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div style="font-size: 50px; margin-bottom:10px;">${p.img}</div>
+                        <strong>${p.name}</strong>
+                        <span class="price-tag">${p.price}</span>
+                    </div>
+                `;
+            });
+        }
+
+        // Initial Load
+        filterCategory('all', document.querySelector('.tab'));
+    </script>
 </body>
 </html>
